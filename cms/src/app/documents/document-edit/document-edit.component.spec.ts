@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContactDetail } from './contact-detail';
+import { DocumentEditComponent } from './document-edit.component';
 
-describe('ContactDetail', () => {
-  let component: ContactDetail;
-  let fixture: ComponentFixture<ContactDetail>;
+describe('DocumentEditComponent', () => {
+  let component: DocumentEditComponent;
+  let fixture: ComponentFixture<DocumentEditComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ContactDetail],
+      declarations: [DocumentEditComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ContactDetail);
+    fixture = TestBed.createComponent(DocumentEditComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

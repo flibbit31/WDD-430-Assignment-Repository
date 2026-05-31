@@ -1,7 +1,7 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing-module';
+import { AppRoutingModule } from './app-routing.module';
 import { App } from './app';
 import { Header } from './header';
 import { Contacts } from './contacts/contacts';
@@ -16,6 +16,8 @@ import { MessageItem } from './messages/message-item/message-item';
 import { MessageEdit } from './messages/message-edit/message-edit';
 import { MessageList } from './messages/message-list/message-list';
 import { DropdownDirective } from './dropdown.directive';
+import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
+import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { DropdownDirective } from './dropdown.directive';
     MessageEdit,
     MessageList,
     DropdownDirective,
+    DocumentEditComponent,
+    ContactEditComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [provideBrowserGlobalErrorListeners()],
