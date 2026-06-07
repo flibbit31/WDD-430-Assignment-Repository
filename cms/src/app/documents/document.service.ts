@@ -10,7 +10,7 @@ import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 export class DocumentService {
   documents: Document[];
   documentSelectedEvent = new EventEmitter<Document>();
-  documentChangedEvent = new EventEmitter<Document[]>();
+  //documentChangedEvent = new EventEmitter<Document[]>();
 
   documentListChangedEvent = new Subject<Document[]>();
   maxDocumentId: number;
