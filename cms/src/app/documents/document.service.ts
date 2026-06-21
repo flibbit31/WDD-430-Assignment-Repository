@@ -3,22 +3,23 @@ import { Subject } from 'rxjs';
 
 import { Document } from './document.model';
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DocumentService {
-  documents: Document[];
+  documents: Document[] = [];
   documentSelectedEvent = new EventEmitter<Document>();
   //documentChangedEvent = new EventEmitter<Document[]>();
 
   documentListChangedEvent = new Subject<Document[]>();
   maxDocumentId: number;
 
-  constructor() {
-    this.documents = MOCKDOCUMENTS;
+  constructor(private httpClient: HttpClient) {
+    //this.documents = MOCKDOCUMENTS;
 
-    this.maxDocumentId = this.getMaxId();
+    //this.maxDocumentId = this.getMaxId();
   }
 
   getMaxId(): number {
@@ -43,8 +44,10 @@ export class DocumentService {
     newDocument.id = this.maxDocumentId.toString();
     this.documents.push(newDocument);
 
-    const documentsListClone = this.documents.slice();
-    this.documentListChangedEvent.next(documentsListClone);
+    //const documentsListClone = this.documents.slice();
+    //this.documentListChangedEvent.next(documentsListClone);
+
+    this.storeDocuments();
   }
 
   updateDocument(originalDocument: Document, newDocument: Document) {
@@ -63,11 +66,51 @@ export class DocumentService {
     this.documents[pos] = newDocument;
     const documentsListClone = this.documents.slice();
 
-    this.documentListChangedEvent.next(documentsListClone);
+    //this.documentListChangedEvent.next(documentsListClone);
+    this.storeDocuments();
   }
 
   getDocuments() {
-    return this.documents.slice();
+    this.httpClient.get<Document[]>('https://wdd-430-cms-b7c30-default-rtdb.firebaseio.com/documents.json').subscribe((documents: Document[]) => {
+      this.documents = documents;
+      this.maxDocumentId = this.getMaxId();
+      this.documents.sort((a, b) => {
+        if (a < b) {
+          return -1;
+        }
+
+        else if (a > b) {
+          return 1;
+        }
+
+        else {
+          return 0;
+        }
+      });
+
+      this.documentListChangedEvent.next(this.documents.slice());
+      }, 
+      (error: any) => {
+        console.log(error);
+      }
+    );
+
+    //return this.documents.slice();
+  }
+
+  storeDocuments() {
+    const documentsString = JSON.stringify(this.documents);
+    const headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    this.httpClient.put('https://wdd-430-cms-b7c30-default-rtdb.firebaseio.com/documents.json', 
+      documentsString,
+    {
+      headers: headers
+    }).subscribe(() => {
+        this.documentListChangedEvent.next(this.documents.slice());
+    });
   }
 
   getDocument(id: string) {
@@ -107,6 +150,7 @@ export class DocumentService {
     this.documents.splice(pos, 1);
     const documentsListClone = this.documents.slice();
 
-    this.documentListChangedEvent.next(documentsListClone);
+    //this.documentListChangedEvent.next(documentsListClone);
+    this.storeDocuments();
   }
 }

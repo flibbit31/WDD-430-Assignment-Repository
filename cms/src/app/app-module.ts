@@ -1,6 +1,7 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { App } from './app';
@@ -19,6 +20,7 @@ import { MessageList } from './messages/message-list/message-list';
 import { DropdownDirective } from './dropdown.directive';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
+import { ContactsFilterPipe } from './contacts/contacts-filter-pipe';
 
 @NgModule({
   declarations: [
@@ -38,8 +40,9 @@ import { ContactEditComponent } from './contacts/contact-edit/contact-edit.compo
     DropdownDirective,
     DocumentEditComponent,
     ContactEditComponent,
+    ContactsFilterPipe,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
 })
